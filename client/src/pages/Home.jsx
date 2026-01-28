@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { CafeCarousel } from '../components/Carousel/CafeCarousel';
+import { CafeCarousel } from "../components/CafeCarousel";
 import cafeDesign1 from "../assets/cafeDesign1.jpg";
-import cafeDesign2 from "../assets/cafeDesign2.jpg";
 import cafeDesign3 from "../assets/cafeDesign3.png";
-import cafeDesign4 from "../assets/cafeDesign4.jpg";
-
 
 function Home() {
   return (

@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-    _id: {
-        type: String,
-        required: true,
-    },
     imageKey: {
         type: String,
         required: true,
@@ -13,6 +9,10 @@ const productSchema = new Schema({
     name: {
         type: String,
         required: true,
+    },
+    rating: {
+        type: Number,
+        required: false,
     },
     description: {
         type: String,

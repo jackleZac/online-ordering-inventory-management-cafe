@@ -11,20 +11,24 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:8080";
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   let navigate = useNavigate();
 
   const submitForm = async () => {
     try {
-      axios.post(`${SERVER_URL}/login`, {
+      axios.post(`${SERVER_URL}/api/login`, {
         username: username,
-        password: password
+        password: password,
       })
       .then((res) => {
-        if (res['data'].message === 'Logged In');
-          dispatch(LoginUser(res['data'].username));
-          console.log('saving username upon login. username:', res['data'].username)
+        if (res['data'].message === 'Logged In'){
+          dispatch(LoginUser({
+            username: res.data.username,
+            isAdmin: res.data.isAdmin
+          }));
+          console.log('saving username upon login. Response received: ', res['data']);
           return navigate('/menu');
+        }
       })
       } catch(error) {
         console.log(error);

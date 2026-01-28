@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import menuPics1 from "../../assets/menuPics1.jpg";
-import menuPics2 from "../../assets/menuPics2.jpg";
-import menuPics3 from "../../assets/menuPics3.jpg";
-import menuPics4 from "../../assets/menuPics4.png";
-import menuPics5 from "../../assets/menuPics5.png";
+import menuPics1 from "../assets/menuPics1.jpg";
+import menuPics2 from "../assets/menuPics2.jpg";
+import menuPics3 from "../assets/menuPics3.jpg";
+import menuPics4 from "../assets/menuPics4.png";
+import menuPics5 from "../assets/menuPics5.png";
 
 export const CafeCarousel = () => {
   const countScreenSize = () => {

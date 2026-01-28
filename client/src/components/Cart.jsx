@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { itemsInCart, itemsTotalPrice } from "../../redux/handleCart/CartSlice";
-import { AddQuantity } from "../../redux/handleCart/AddQuantity";
-import { MinusQuantity } from "../../redux/handleCart/MinusQuantity";
-import { RemoveItem } from "../../redux/handleCart/RemoveItem";
+import { itemsInCart, itemsTotalPrice } from "../redux/handleCart/CartSlice";
+import { AddQuantity } from "../redux/handleCart/AddQuantity";
+import { MinusQuantity } from "../redux/handleCart/MinusQuantity";
+import { RemoveItem } from "../redux/handleCart/RemoveItem";
 
 export const Cart = () => {
     // Retrieve existing items in a cart
@@ -15,7 +15,7 @@ export const Cart = () => {
 
     const stripe = useStripe();
     const elements = useElements();
-    const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:8080";
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
     const handleCheckout = async () => {
         if (!stripe || !elements) return;
