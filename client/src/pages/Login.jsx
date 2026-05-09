@@ -26,12 +26,17 @@ function Login() {
             username: res.data.username,
             isAdmin: res.data.isAdmin
           }));
+
           console.log('saving username upon login. Response received: ', res['data']);
-          return navigate('/menu');
+          if (res['data'].isAdmin) {
+            return navigate('/admin/orders');
+          } else {
+            return navigate('/menu');
+          }
         }
       })
-      } catch(error) {
-        console.log(error);
+    } catch(error) {
+      console.log(error);
     }
   }
   // Handle form submission

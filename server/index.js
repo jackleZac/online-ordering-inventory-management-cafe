@@ -30,11 +30,15 @@ mongoose.connect(process.env.DB, { dbName: 'cafe' })
 const menuRoutes = require("./routes/menuRoutes");
 const authRoutes = require("./routes/authRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const ordersRoutes = require("./routes/ordersRoutes");
+const inventoryRoutes = require("./routes/inventoryRoutes");
 
 // Use routes
 app.use("/", authRoutes);
 app.use("/menu", menuRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/admin/orders", ordersRoutes);
+app.use("/admin/inventory", inventoryRoutes);
 
 // Wrap Express app with HTTP server for WebSockets
 const server = require('http').createServer(app);

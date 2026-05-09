@@ -1,8 +1,8 @@
-# ☕ Café Ordering System
+# Café Ordering System
 
 A full-stack web application for managing café orders, built with React (Vite) on the frontend and Node.js (Express) on the backend.
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 project-root/
@@ -12,9 +12,9 @@ project-root/
 
 ---
 
-## 🚀 Getting Started
+## Setup Instructions
 
-### 🔧 Prerequisites
+### Prerequisites
 
 - Node.js (v16 or higher)
 - npm
@@ -25,7 +25,7 @@ project-root/
 - Stripe
 ---
 
-## 🖥️ Frontend Setup (React + Vite)
+## Frontend Setup (React + Vite)
 
 1. Navigate to the frontend directory:
    ```bash
@@ -56,7 +56,7 @@ project-root/
 
 ---
 
-## 🔙 Backend Setup (Node.js)
+## Backend Setup (Node.js)
 
 1. Navigate to the backend directory:
    ```bash
@@ -92,7 +92,7 @@ project-root/
    ```bash
    node index.js
    ```
-   Or if you have a script:
+   Or
    ```bash
    npm run start
    ```
