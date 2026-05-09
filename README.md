@@ -1,9 +1,25 @@
-# Café Ordering System
+# Online Ordering and Inventory Management for Café
 
-A full-stack web application for managing café orders, built with React (Vite) on the frontend and Node.js (Express) on the backend.
+A full-stack web application for managing online orders and inventory, built with React (Vite) and Node.js (Express). Functionalities include:
+
+**User**
+   - Signup/login
+   - Adding product to cart
+   - Remove product from cart
+   - Purchase product(s)
+
+**Admin**
+   - View orders summary
+   - View trend of orders per product
+   - View product sales summary
+   - View inventory summary 
+   - View inventory composition
+   - View low stock items
+   - View item catalog
+   - View supplier records
+   - View total used units per items
 
 ## Project Structure
-
 ```
 project-root/
 ├── client/       # React + Vite frontend
@@ -151,3 +167,10 @@ fetch(`${import.meta.env.VITE_API_URL}/orders`)
 
 ## Contact Us
 <img width="1889" height="919" alt="image" src="https://github.com/user-attachments/assets/8f391428-9bfb-4aaf-920d-74efc2d940c4" />
+
+## Admin 
+### Orders
+<img width="1769" height="945" alt="admin-orders" src="https://github.com/user-attachments/assets/e6c8719a-dd22-4397-8ece-77c30ea86ffc" />
+
+### Inventory
+<img width="1769" height="1839" alt="admin-inventory" src="https://github.com/user-attachments/assets/bf200835-f5bb-48fa-a5ee-92d0fe141222" />
