@@ -176,16 +176,16 @@ fetch(`${import.meta.env.VITE_API_URL}/orders`)
 
 ## Admin 
 ### Orders
-![Orders](../coffee-ordering-system/screenshots/admin-orders.jpeg)
+![Orders](screenshots/admin-orders.jpeg)
 
 ### Inventory
-![Inventory](../coffee-ordering-system/screenshots/admin-inventory.jpeg)
+![Inventory](screenshots/admin-inventory.jpeg)
 
 ### Items
-![Item](../coffee-ordering-system/screenshots/admin-items.jpeg)
+![Item](screenshots/admin-items.jpeg)
 
 ### Batches
-![Batches](../coffee-ordering-system/screenshots/admin-batches.png)
+![Batches](screenshots/admin-batches.png)
 
 ### Suppliers
-![Suppliers](../coffee-ordering-system/screenshots/admin-suppliers.jpeg)
+![Suppliers](screenshots/admin-suppliers.jpeg)
