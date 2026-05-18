@@ -8,6 +8,7 @@ const { verifyToken, requireAdmin } = require("../middleware/authMiddleware");
 
 // Import model schemas
 const Menu = require('../model/menuSchema');
+const Order = require('../model/orderSchema');
 
 // ------------------------ Private routes (Admins only) -------------------------- //
 router.post('/', verifyToken, requireAdmin, upload.single("image"), async (req, res) => {
@@ -103,12 +104,30 @@ router.delete('/:id', verifyToken, requireAdmin, async (req, res) => {
   try {
     const productId = req.params.id
     // Delete product
-    const deletedProduct = await Menu.findByIdAndDelete(productId);
+    const deletedProduct = await Menu.findByIdAndUpdate(
+      req.params.id,
+      { 
+        isDeleted: true 
+      },
+      {
+        new: true
+      }
+    );
 
     // If no product is found
     if (!deletedProduct) {
       return res.status(404).json({ error: 'Product not found' });
     };
+
+    // Soft-delete related orders
+    await Order.updateMany(
+      {
+        item: req.params.id
+      },
+      {
+        isDeleted: true
+      }
+    );
 
     // Delete the product's image
     const deletedProductImage = path.join(
@@ -142,7 +161,7 @@ router.get('/', async (req, res) => {
     // Confirm connection
     console.log('Receiving GET request for /menu');
     // GET all available menu
-    const items = await Menu.find({});
+    const items = await Menu.find({ isDeleted: false });
     res.status(200).send(items);
     console.log(items);
   } catch (error) {
@@ -155,7 +174,14 @@ router.get('/:category', async (req, res) => {
   try {
     const targetedMenu = req.params.category;
     // Get a specific menu
-    const items = await Menu.find({ category: targetedMenu}).exec();
+    const items = await Menu.find(
+      { 
+        category: targetedMenu
+      }, 
+      {
+        isDeleted: false
+      }).exec();
+      
     res.status(200).send(items)
     console.log(items)
   } catch (error) {

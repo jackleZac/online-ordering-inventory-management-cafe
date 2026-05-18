@@ -29,7 +29,7 @@ type Supplier = {
 type ItemCatalog = {
   _id: string;
   name: string;
-  supplier?: string;
+  supplier: string;
   unit?: string;
   threshold?: number;
   isPerishable?: boolean;
@@ -90,6 +90,7 @@ function Inventory() {
         }
 
         const data = await response.json();
+        console.log(data);
         setInventoryData(data);
       } catch (err) {
         console.error(err);
@@ -110,7 +111,7 @@ function Inventory() {
         </div>
       </AdminLayout>
     );
-  }
+  };
 
   if (error || !inventoryData) {
     return (
@@ -120,7 +121,7 @@ function Inventory() {
         </div>
       </AdminLayout>
     );
-  }
+  };
 
   const overviewCards = [
     {

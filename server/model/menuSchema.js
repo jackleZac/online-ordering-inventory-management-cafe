@@ -10,6 +10,11 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
+    item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item', // ingredients, cups, etc.
+        required: false,
+    },
     rating: {
         type: Number,
         required: false,
@@ -21,14 +26,13 @@ const productSchema = new Schema({
         type: String, // coffee, cakes, wraps, etc.
         required: true, 
     },
-    item: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Item', // ingredients, cups, etc.
-        required: false,
-    },
     price: {
         type: Number,
         required: true,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
     }
 });
 

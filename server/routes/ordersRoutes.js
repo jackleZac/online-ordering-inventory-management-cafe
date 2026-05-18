@@ -15,6 +15,7 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
         // Count number of orders (this month)
         const now = new Date()
         const ordersThisMonth = await Orders.find({ 
+            isDeleted: false,
             orderDate: {
                 $gte: new Date(now.getFullYear(), now.getMonth(), 1),
                 $lte: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
@@ -30,7 +31,9 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
          * Filters: food, coffee, period (6 months, default: 1 year)
          * Method: Calculate number of orders for every products
          */
-        const menu = await Menu.find();
+        const menu = await Menu.find({
+            isDeleted: false
+        });
         const startDate = new Date();
         startDate.setFullYear(startDate.getFullYear() - 1);
         const endDate = now;
@@ -78,6 +81,7 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
                     status: {
                         $ne: "refund",
                     },
+                    isDeleted: false
                 },
             },
             {
@@ -107,8 +111,31 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
             {
                 $lookup: {
                     from: "menus",
-                    localField: "_id.menu",
-                    foreignField: "_id",
+                    let: {
+                        menuId: "$_id.menu"
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        {
+                                            $eq: [
+                                                "$_id",
+                                                "$$menuId"
+                                            ]
+                                        },
+                                        {
+                                            $eq: [
+                                                "$isDeleted",
+                                                false
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
                     as: "menuDetails",
                 },
             },
@@ -132,6 +159,78 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
                     productName: 1,
                 },
             },
+        ]);
+
+        // Product sales summary
+        const productSummary = await Orders.aggregate([
+            {
+                $match: {
+                    isDeleted: false,
+                    status: {
+                        $ne: "refund"
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$menu",
+                    totalOrderRecords: {
+                        $sum: 1
+                    },
+                    totalQuantitySold: {
+                        $sum: "$quantity"
+                    }
+                }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    let: {
+                        menuId: "$_id"
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        {
+                                            $eq: [
+                                                "$_id",
+                                                "$$menuId"
+                                            ]
+                                        },
+                                        {
+                                            $eq: [
+                                                "$isDeleted",
+                                                false
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "menuDetails"
+                }
+            },
+            {
+                $unwind: "$menuDetails"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    menuId: "$_id",
+                    productName: "$menuDetails.name",
+                    category: "$menuDetails.category",
+                    totalOrderRecords: 1,
+                    totalQuantitySold: 1
+                }
+            },
+            {
+                $sort: {
+                    totalQuantitySold: -1
+                }
+            }
         ]);
 
         // Convert raw aggregation rows into chart-friendly datasets
@@ -179,7 +278,7 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
                 refundOrders,
             },
             orderTrendByProduct,
-            rawTrendRows: trendRows,
+            productSummary
         });
     } catch (error){
         console.log('Error:', error);

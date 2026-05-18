@@ -58,6 +58,19 @@ type ProductSummary = {
   totalQuantitySold: number;
 };
 
+const lineColors = [
+  "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
+  "#FF9F40", "#C9CBCF", "#E91E63", "#3F51B5", "#009688",
+  "#8BC34A", "#CDDC39", "#FFC107", "#FF5722", "#795548",
+  "#607D8B", "#673AB7", "#2196F3", "#00BCD4", "#4CAF50",
+  "#FF9800", "#9C27B0", "#F44336", "#3E2723", "#1DE9B6",
+  "#D500F9", "#00E676", "#FF1744", "#2979FF", "#FFD600",
+  "#76FF03", "#651FFF", "#00B0FF", "#FF6D00", "#AEEA00",
+  "#6200EA", "#304FFE", "#00C853", "#AA00FF", "#C51162",
+  "#64DD17", "#FFAB00", "#0091EA", "#00B8D4", "#D81B60",
+  "#43A047", "#FB8C00", "#8E24AA", "#3949AB", "#00897B"
+];
+
 function Orders() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -154,11 +167,14 @@ function Orders() {
 
   const chartData = {
     labels: orderTrendByProduct.labels,
-    datasets: orderTrendByProduct.datasets.map((item) => ({
+    datasets: orderTrendByProduct.datasets.map((item, index) => ({
       label: item.label,
       data: item.data,
       borderWidth: 2,
       tension: 0.3,
+      borderColor:lineColors[index % lineColors.length],
+      backgroundColor: lineColors[index % lineColors.length],
+      pointHoverRadius: 5
     })),
   };
 

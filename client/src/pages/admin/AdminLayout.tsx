@@ -1,12 +1,31 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LogoutUser } from "../../redux/auth/AuthSlice";
 
 let navigation = [
     { name: 'ORDERS', href: '/admin/orders', current: false},
-    { name: 'INVENTORY', href: '/admin/inventory', current: false}
+    { name: 'INVENTORY', href: '/admin/inventory', current: false},
+    { name: 'ITEMS', href: '/admin/items', current: false},
+    { name: 'BATCHES', href: '/admin/batches', current: false},
+    { name: 'SUPPLIERS', href: '/admin/suppliers', current: false},
 ];
 
 function AdminLayout({ children }: { children: ReactNode }){
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    function handleLogout() {
+
+        // Clear redux state
+        dispatch(LogoutUser());
+
+        // Remove JWT token
+        localStorage.removeItem("token");
+
+        // Redirect to login page
+        navigate("/");
+    }
     return (
         <div className="min-h-screen grid xl:grid-cols-6">
             <aside className="w-220 pl-12 pt-12 bg-[#6F4E37] text-white">
@@ -14,14 +33,45 @@ function AdminLayout({ children }: { children: ReactNode }){
                 <ul className="font-light text-lg/8">
                     {navigation.map((a) => (
                         <li key={a.name}>
-                            <Link to={a.href} className='hover:drop-shadow-lg'>
+                            <NavLink 
+                                to={a.href} 
+                                className={({ isActive }) =>
+                                `
+                                block
+                                w-fit
+                                px-4
+                                py-2
+                                rounded-lg
+                                transition
+                                duration-200
+                                ${
+                                    isActive
+                                    ? "bg-[#A67B5B] font-medium"
+                                    : ""
+                                }
+                                `
+                                }
+                            >
                                 {a.name}
-                            </Link>
+                            </NavLink>
                         </li>
                     ))}
                 </ul>
-                <button className="font-light text-lg/8 mt-6">
-                    LOGOUT
+                <button
+                onClick={handleLogout}
+                className="
+                    font-light
+                    text-lg
+                    mt-6
+                    px-4
+                    py-2
+                    rounded-lg
+                    hover:bg-red-600
+                    transition
+                    duration-200
+                "
+                >
+                LOGOUT
                 </button>
             </aside>
             <main className="xl:col-span-5">

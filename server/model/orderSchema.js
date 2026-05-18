@@ -8,7 +8,8 @@ const orderSchema = new Schema({
     },
     menu: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Menu' 
+        ref: 'Menu',
+        required: true
     },
     quantity: {
         type: Number,
@@ -21,6 +22,10 @@ const orderSchema = new Schema({
     orderDate: { 
         type: Date, 
         default: Date.now,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
     }
 });
 

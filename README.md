@@ -18,6 +18,7 @@ A full-stack web application for managing online orders and inventory, built wit
    - View item catalog
    - View supplier records
    - View total used units per items
+   - Manage items, batches, suppliers
 
 ## Project Structure
 ```
@@ -79,7 +80,7 @@ project-root/
    cd server
    ```
 
-   ⚠️ **MongoDB Setup Required**
+   **MongoDB Setup Required**
    
    Before running the backend, make sure you have a MongoDB database ready:
    - You can create a free MongoDB Atlas cluster or use a local MongoDB instance.
@@ -118,9 +119,14 @@ project-root/
    http://localhost:3000
    ```
 
+6. Generate mock data (optional)
+   ```
+   node seeds/seed.js
+   ```
+
 ---
 
-## 🔗 Connecting Frontend to Backend
+## Connecting Frontend to Backend
 
 Ensure your frontend API calls point to the backend URL (e.g. `http://localhost:3000`). 
 
@@ -135,7 +141,7 @@ fetch(`${import.meta.env.VITE_API_URL}/orders`)
 
 ---
 
-## 🧩 Tech Stack
+## Tech Stack
 
 - **Frontend**: React, Vite
 - **Backend**: Node.js, Express
@@ -143,7 +149,7 @@ fetch(`${import.meta.env.VITE_API_URL}/orders`)
 
 ---
 
-## 📁 Folder Highlights
+## Folder Highlights
 
 - `client/src/` — React components, pages, and assets
 - `server/` — API routes, business logic, and server config
@@ -170,7 +176,16 @@ fetch(`${import.meta.env.VITE_API_URL}/orders`)
 
 ## Admin 
 ### Orders
-<img width="1769" height="945" alt="admin-orders" src="https://github.com/user-attachments/assets/e6c8719a-dd22-4397-8ece-77c30ea86ffc" />
+![Orders](../coffee-ordering-system/screenshots/admin-orders.jpeg)
 
 ### Inventory
-<img width="1769" height="1839" alt="admin-inventory" src="https://github.com/user-attachments/assets/bf200835-f5bb-48fa-a5ee-92d0fe141222" />
+![Inventory](../coffee-ordering-system/screenshots/admin-inventory.jpeg)
+
+### Items
+![Item](../coffee-ordering-system/screenshots/admin-items.jpeg)
+
+### Batches
+![Batches](../coffee-ordering-system/screenshots/admin-batches.png)
+
+### Suppliers
+![Suppliers](../coffee-ordering-system/screenshots/admin-suppliers.jpeg)

@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const batchSchema = new Schema({
     item: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Item' 
+        ref: 'Item',
+        required: true, 
     },
     batchNumber: {
         type: String,
@@ -26,6 +27,10 @@ const batchSchema = new Schema({
         type: Date, default: Date.now 
     },
     isUsed: {
+        type: Boolean,
+        default: false,
+    },
+    isDeleted: {
         type: Boolean,
         default: false,
     }

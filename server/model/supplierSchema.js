@@ -13,6 +13,10 @@ const supplierSchema = new Schema({
     email: {
         type: String,
         required: false,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
     }
 });
 

@@ -21,6 +21,10 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         required: true,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
     }
 })
 

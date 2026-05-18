@@ -7,7 +7,8 @@ const itemSchema = new Schema({
         required: true,
     },
     supplier: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Supplier',
         required: true,
     },
     unit: {
@@ -22,6 +23,10 @@ const itemSchema = new Schema({
         type: Number, // for low-stock alerts
         required: false,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const Item = mongoose.model('Item', itemSchema);
