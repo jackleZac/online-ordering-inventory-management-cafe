@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { verifyToken, requireAdmin } = require("../middleware/authMiddleware");
+const { verifyToken, requireAdmin } = require("../../middleware/authMiddleware");
 
 // Import model schemas
-const Batch = require('../model/batchSchema');
+const Batch = require('../../model/batchSchema');
 
 // ------------------- Private routes ------------------------------------------ //
 router.get('/', verifyToken, requireAdmin, async(req, res) => {
@@ -29,6 +29,37 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
     }  catch(error){
         console.log('Error:', error);
     }
+});
+
+router.post('/', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const {
+            item,
+            batchNumber,
+            initialQuantity,
+            currentQuantity,
+            expiryDate,
+            receivedDate
+        } = req.body;
+
+        const savedBatch = await Batch.create({
+            item,
+            batchNumber,
+            initialQuantity,
+            currentQuantity,
+            expiryDate,
+            receivedDate,
+            isUsed: false,
+            isDeleted: false
+        });
+
+        return res.status(201).json({
+            message: 'Batch created successfully',
+            batch: savedBatch
+        });
+    } catch (error){
+        console.log('Error:', error);
+    };
 });
 
 router.get('/:id', verifyToken, requireAdmin, async (req, res) => {

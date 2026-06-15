@@ -8,6 +8,7 @@ const initialState = {
 /*  Cart Properties
   _id: string,
   name: string,
+  imageKey: string,
   initialPrice: number,
   accPrice: number,
   quantity: number,
@@ -32,8 +33,8 @@ export const CartSlice = createSlice({
           existingItem.quantity += itemToAdd.quantity;
           existingItem.accPrice = existingItem.initialPrice * existingItem.quantity;
         } else {
-          // Otherwise, add the new item with _id, name, initalPrice, accPrice, quantity: 1
-          state.cart = [...state.cart, { ...itemToAdd}];
+          // Otherwise, add the new item with _id, name, imageKey, initialPrice, accPrice, quantity: 1
+          state.cart = [...state.cart, { ...itemToAdd }];
         }
       } catch (err) {
         console.log(`addToCart did not work as expected. ${err}`);

@@ -3,12 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { verifyToken, requireAdmin } = require("../middleware/authMiddleware");
+const { verifyToken, requireAdmin } = require("../../middleware/authMiddleware");
 
 // Import model schemas
-const Item = require('../model/itemSchema');
-const Menu = require('../model/menuSchema');
-const Batch = require('../model/batchSchema');
+const Item = require('../../model/itemSchema');
+const Menu = require('../../model/menuSchema');
+const Batch = require('../../model/batchSchema');
 
 // ------------------- Private routes ------------------------------------------ //
 router.get('/', verifyToken, requireAdmin, async(req, res) => {
@@ -57,6 +57,34 @@ router.get('/:id', verifyToken, requireAdmin, async (req, res) => {
             message: 'Server error'
         });
     }
+});
+
+router.post('/', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const {
+            name,
+            supplier,
+            unit,
+            isPerishable,
+            threshold
+        } = req.body;
+
+        const savedItem = await Item.create({
+            name,
+            supplier,
+            unit,
+            isPerishable,
+            threshold,
+            isDeleted: false
+        });
+
+        return res.status(201).json({
+            message: 'Item created successfully',
+            item: savedItem
+        });
+    } catch (error){
+        console.log('Error:', error);
+    };
 });
 
 router.put('/:id', verifyToken, requireAdmin, async (req, res) => {

@@ -58,6 +58,11 @@ function Items() {
     fetchItemsData();
   }, []);
   
+  // Redirect to CreateItem
+  async function handleCreate(){
+    navigate("/admin/items/create")
+  };
+
   // Redirect to EditItem
   async function handleEdit(id: string){
     navigate(`/admin/items/edit/${id}`);
@@ -127,6 +132,7 @@ function Items() {
         </h1>
         <div className="flex flex-row-reverse">
           <button
+            onClick={() => handleCreate()}
             className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 my-6 rounded"
           >
             Add

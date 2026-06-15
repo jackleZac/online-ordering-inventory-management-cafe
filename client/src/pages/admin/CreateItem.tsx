@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 
 declare global {
@@ -10,43 +10,37 @@ declare global {
   }
 }
 
-type Item = {
+type Supplier = {
   _id: string;
   name: string;
-  supplier: {
-    _id: string;
-    name: string;
-  };
-  unit: string;
-  isPerishable: boolean;
-  threshold?: number;
 };
 
-function EditItem() {
+function CreateItem() {
 
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-  const [loading, setLoading] = useState(true);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
   const [name, setName] = useState("");
-  const [supplierName, setSupplierName] = useState("");
+  const [supplier, setSupplier] = useState("");
   const [unit, setUnit] = useState("");
   const [isPerishable, setIsPerishable] = useState(false);
   const [threshold, setThreshold] = useState<number | "">("");
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
 
-    async function fetchItem() {
+    async function fetchSuppliers() {
 
       try {
 
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          `${SERVER_URL}/api/admin/items/${id}`,
+          `${SERVER_URL}/api/admin/suppliers`,
           {
             method: "GET",
             headers: {
@@ -56,23 +50,17 @@ function EditItem() {
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch item");
+          throw new Error("Failed to fetch suppliers");
         }
 
         const data = await response.json();
 
-        const item: Item = data.item;
-
-        setName(item.name);
-        setSupplierName(item.supplier.name);
-        setUnit(item.unit);
-        setIsPerishable(item.isPerishable);
-        setThreshold(item.threshold ?? "");
+        setSuppliers(data.suppliers || []);
 
       } catch (error) {
 
         console.error(error);
-        alert("Failed to load item.");
+        alert("Failed to load suppliers.");
 
       } finally {
 
@@ -81,11 +69,14 @@ function EditItem() {
       }
     }
 
-    fetchItem();
+    fetchSuppliers();
 
-  }, [id]);
+  }, [SERVER_URL]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
+
     e.preventDefault();
 
     try {
@@ -93,15 +84,16 @@ function EditItem() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `${SERVER_URL}/api/admin/items/${id}`,
+        `${SERVER_URL}/api/admin/items`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name,
+            supplier,
             unit,
             isPerishable,
             threshold:
@@ -111,17 +103,17 @@ function EditItem() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update item");
+        throw new Error("Failed to create item");
       }
 
-      alert("Item updated successfully.");
+      alert("Item created successfully");
 
       navigate("/admin/items");
 
     } catch (error) {
 
       console.error(error);
-      alert("Failed to update item.");
+      alert("Failed to create item.");
 
     }
   }
@@ -130,7 +122,7 @@ function EditItem() {
     return (
       <AdminLayout>
         <div className="p-6">
-          <p>Loading item...</p>
+          <p>Loading suppliers...</p>
         </div>
       </AdminLayout>
     );
@@ -140,9 +132,12 @@ function EditItem() {
     <AdminLayout>
 
       <div className="p-6 max-w-xl">
+        <a className="font-medium" href="/admin/items">
+            ← Back
+        </a>
 
-        <h1 className="text-2xl font-bold mb-6">
-          Edit Item
+        <h1 className="text-2xl font-bold mt-12 mb-6">
+          Create Item
         </h1>
 
         <form
@@ -152,6 +147,7 @@ function EditItem() {
 
           {/* Item Name */}
           <div>
+
             <label className="block mb-1 font-medium">
               Item Name
             </label>
@@ -171,32 +167,51 @@ function EditItem() {
                 py-2
               "
             />
+
           </div>
 
-          {/* Supplier (Read Only) */}
+          {/* Supplier */}
           <div>
+
             <label className="block mb-1 font-medium">
               Supplier
             </label>
 
-            <input
-              type="text"
-              value={supplierName}
-              disabled
+            <select
+              value={supplier}
+              onChange={(e) =>
+                setSupplier(e.target.value)
+              }
+              required
               className="
                 w-full
                 border
                 rounded-lg
                 px-4
                 py-2
-                bg-gray-100
-                cursor-not-allowed
               "
-            />
+            >
+
+              <option value="">
+                Select Supplier
+              </option>
+
+              {suppliers.map((supplier) => (
+                <option
+                  key={supplier._id}
+                  value={supplier._id}
+                >
+                  {supplier.name}
+                </option>
+              ))}
+
+            </select>
+
           </div>
 
           {/* Unit */}
           <div>
+
             <label className="block mb-1 font-medium">
               Unit
             </label>
@@ -216,10 +231,12 @@ function EditItem() {
                 py-2
               "
             />
+
           </div>
 
           {/* Perishable */}
           <div className="flex items-center gap-3">
+
             <input
               type="checkbox"
               checked={isPerishable}
@@ -231,10 +248,12 @@ function EditItem() {
             <label className="font-medium">
               Perishable Item
             </label>
+
           </div>
 
           {/* Threshold */}
           <div>
+
             <label className="block mb-1 font-medium">
               Low Stock Threshold
             </label>
@@ -253,6 +272,7 @@ function EditItem() {
                 py-2
               "
             />
+
           </div>
 
           {/* Submit */}
@@ -267,7 +287,7 @@ function EditItem() {
               rounded-lg
             "
           >
-            Update Item
+            Create Item
           </button>
 
         </form>
@@ -278,4 +298,4 @@ function EditItem() {
   );
 }
 
-export default EditItem;
+export default CreateItem;

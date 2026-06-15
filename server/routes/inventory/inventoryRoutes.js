@@ -3,13 +3,13 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { upload } = require('../multer');
-const { verifyToken, requireAdmin } = require("../middleware/authMiddleware");
+const { upload } = require('../../multer');
+const { verifyToken, requireAdmin } = require("../../middleware/authMiddleware");
 
 // Import model schemas
-const Item = require('../model/itemSchema');
-const Batch = require('../model/batchSchema');
-const Supplier = require('../model/supplierSchema');
+const Item = require('../../model/itemSchema');
+const Batch = require('../../model/batchSchema');
+const Supplier = require('../../model/supplierSchema');
 
 // ----------------------- Private routes ---------------------------------------//
 router.get('/', verifyToken, requireAdmin, async(req, res) => {

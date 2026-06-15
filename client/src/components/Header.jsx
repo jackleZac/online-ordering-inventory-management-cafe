@@ -4,12 +4,13 @@ import { useSelector } from 'react-redux';
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import LOGO from "../assets/artisanBrewsBrand.png";
-import { selectUsername } from '../redux/auth/AuthSlice';
+import { selectUsername, selectRole } from '../redux/auth/AuthSlice';
 
 let navigation = [
-  { name: 'HOME', href: '/', current: false},
-  { name: 'MENU', href: '/menu', current: false},
-  { name: 'CONTACT US', href: '/contact', current: false}
+  { name: 'Home', href: '/', current: false},
+  { name: 'Menu', href: '/menu', current: false},
+  { name: 'Cart', href: '/cart', current: false},
+  { name: 'Contact Us', href: '/contact', current: false}
 ]
 
 export const Header = () => {
@@ -25,6 +26,7 @@ export const Header = () => {
 
   // Fetch username
   const username = useSelector(selectUsername);
+  const isAdmin = useSelector(selectRole);
 
   return (
   <div>
@@ -41,6 +43,11 @@ export const Header = () => {
             {item.name}
           </Link>
         ))}
+        {isAdmin && (
+          <Link to="/admin/orders" className="text-white hover:underline">
+            Inventory →
+          </Link>
+        )}
       </div>
       {username ? (
       <div className="mx-6 flex flex-row my-auto text-white">

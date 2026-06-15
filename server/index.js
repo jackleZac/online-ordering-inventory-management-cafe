@@ -31,10 +31,10 @@ const menuRoutes = require("./routes/menuRoutes");
 const authRoutes = require("./routes/authRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const ordersRoutes = require("./routes/ordersRoutes");
-const inventoryRoutes = require("./routes/inventoryRoutes");
-const itemsRoutes = require("./routes/itemsRoutes");
-const batchesRoutes = require("./routes/batchesRoutes");
-const suppliersRoutes = require("./routes/supplierRoutes");
+const inventoryRoutes = require("./routes/inventory/inventoryRoutes");
+const itemsRoutes = require("./routes/inventory/itemsRoutes");
+const batchesRoutes = require("./routes/inventory/batchesRoutes");
+const suppliersRoutes = require("./routes/inventory/supplierRoutes");
 
 // Use routes
 app.use("/", authRoutes);

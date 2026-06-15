@@ -1,6 +1,7 @@
 import { CafeCarousel } from "../components/CafeCarousel";
 import cafeDesign1 from "../assets/cafeDesign1.jpg";
 import cafeDesign3 from "../assets/cafeDesign3.png";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -12,7 +13,9 @@ function Home() {
         <div className="my-auto mx-auto w-4/5 px-12 text-[#373333] text-center">
           <h1 className="font-bold text-2xl my-4">ENJOY THE ARTISTIC VIBE AT OUR CAFE</h1>
           <p className="my-4">while sipping on coffee and munching on wraps</p>
-          <button className="my-2 mb-12 p-4 bg-[#545454] text-white rounded-3xl transition duration-700 hover:-translate-y-1 hover:scale-105">VIEW MENU</button>
+          <Link to="/menu">
+            <button className="my-2 mb-12 p-4 bg-[#545454] text-white rounded-3xl transition duration-700 hover:-translate-y-1 hover:scale-105">VIEW MENU</button>
+          </Link>
         </div>
       </div>
       <div className="bg-[#c6c0b7] max-md:text-center max-md:px-12">

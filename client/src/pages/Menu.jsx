@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { itemsInCart } from "../redux/handleCart/CartSlice";
-import { Cart } from "../components/Cart";
 import { IoCartOutline } from "react-icons/io5";
 import { VscCoffee } from "react-icons/vsc";
 import { GiTacos } from "react-icons/gi";
@@ -30,6 +29,7 @@ function Menu() {
 
   const isAdmin = useSelector(selectRole);
   console.log("Redux isAdmin:", isAdmin);
+  
   // Fetch menu items
   const fetchData = async () => {
     try {
@@ -111,8 +111,8 @@ function Menu() {
   };
 
   return (
-    <div className="pt-24 bg-[#f5f5ef]">
-      {/* Create Product Drawer */}
+    <div className="pt-24 p bg-[#f5f5ef]">
+      {/* Create Product Drawer (admin only) */}
       {isAdmin && (
         <CreateProductDrawer
           open={isCreateProductModalVisible}
@@ -120,7 +120,7 @@ function Menu() {
         />
       )}
 
-      {/* Edit Product Drawer */}
+      {/* Edit Product Drawer (admin only) */}
       {isAdmin && selectedProduct && (
         <EditProductDrawer
           open={isEditProductModalVisible}
@@ -129,9 +129,9 @@ function Menu() {
         />
       )}
 
-      <div className="flex lg:flex-row max-md:flex-col">
-        <div className="w-auto md:w-full max-md:mt-32">
-          {/* Admin create button */}
+      <div className="flex lg:flex-row max-md:flex-col min-h-screen">
+        <div className="w-auto md:w-full max-md:mt-32 px-20">
+          {/* Admin create button (admin only) */}
           {isAdmin && (
             <div className="mb-4">
               <button
@@ -143,8 +143,46 @@ function Menu() {
             </div>
           )}
 
-          {/* Product list */}
-          <div className="flex lg:flex-rows max-sm:flex-col flex-wrap gap-4">
+          {/* Filter buttons */}
+          <div className="flex justify-center mb-4 mt-12">
+            <div className="max-md:fixed max-md:top-24">
+              <div className="m-2 bg-white shadow-lg flex flex-col border-1 rounded-lg">
+                <h2 className="m-2 font-bold text-center text-xl">MENU</h2>
+                <div className="mx-2 my-4 border-2 rounded-lg flex flex-row max-md:flex-row">
+                  <button
+                    className="px-4 py-2 w-full hover:bg-slate-200 flex flex-row"
+                    onClick={() => handleFilter(null)}
+                  >
+                    <IoFastFoodOutline className="mx-2" />
+                    <p>All</p>
+                  </button>
+                  <button
+                    className="px-4 py-2 w-full hover:bg-slate-200 flex flex-row"
+                    onClick={() => handleFilter("coffee")}
+                  >
+                    <VscCoffee className="mx-2" />
+                    <p>Coffee</p>
+                  </button>
+                  <button
+                    className="px-4 py-2 w-full hover:bg-slate-200 flex flex-row"
+                    onClick={() => handleFilter("wraps")}
+                  >
+                    <GiTacos className="mx-2" />
+                    <p>Wraps</p>
+                  </button>
+                  <button
+                    className="px-4 py-2 w-full hover:bg-slate-200 flex flex-row"
+                    onClick={() => handleFilter("pastry")}
+                  >
+                    <GiTacos className="mx-2" />
+                    <p>Pastry</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Product list (public) */}
+          <div className="flex lg:flex-rows max-sm:flex-col flex-wrap gap-4 justify-center">
             {isAdmin && products.length == 0 ? (
               <div className="flex w-full min-h-screen justify-center items-center">
                 <p>No products found. Create one to get started.</p>
@@ -182,63 +220,6 @@ function Menu() {
             )))
             }
           </div>
-        </div>
-
-        {/* Filter & Cart */}
-        <div className="w-2/5">
-          {/* Filter */}
-          <div className="max-md:fixed max-md:top-24">
-            <div className="m-2 bg-white shadow-lg flex flex-col border-1 rounded-lg">
-              <h2 className="m-2 font-bold text-center text-xl">MENU</h2>
-              <div className="m-2 border-2 rounded-lg flex flex-col max-md:flex-row">
-                <button
-                  className="p-2 w-full hover:bg-slate-200 flex flex-row"
-                  onClick={() => handleFilter(null)}
-                >
-                  <IoFastFoodOutline className="mx-2" />
-                  <p>ALL MENU</p>
-                </button>
-                <button
-                  className="p-2 w-full hover:bg-slate-200 flex flex-row"
-                  onClick={() => handleFilter("coffee")}
-                >
-                  <VscCoffee className="mx-2" />
-                  <p>COFFEE</p>
-                </button>
-                <button
-                  className="p-2 w-full hover:bg-slate-200 flex flex-row"
-                  onClick={() => handleFilter("meals")}
-                >
-                  <GiTacos className="mx-2" />
-                  <p>WRAPS</p>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Cart (for customers only) */}
-          {!isAdmin && (
-            <div>
-              <div className={`max-md:fixed top-28 ${cartMobile ? "left-0" : "-left-[100%]"} w-full h-screen transition-all duration-700`}>
-                <Elements stripe={stripePromise}>
-                  <Cart />
-                </Elements>
-              </div>
-              <div className="lg:hidden fixed bottom-6 right-2">
-                <div className="relative">
-                  <button
-                    className="p-2 text-4xl bg-white rounded-2xl shadow-lg"
-                    onClick={handleCartMobile}
-                  >
-                    <IoCartOutline />
-                  </button>
-                  <div className="absolute -top-2 -left-4 p-1 px-2 text-white text-xs bg-[#373333] rounded-2xl">
-                    {cartQty}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

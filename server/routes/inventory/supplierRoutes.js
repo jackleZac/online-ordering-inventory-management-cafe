@@ -3,13 +3,13 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { verifyToken, requireAdmin } = require("../middleware/authMiddleware");
+const { verifyToken, requireAdmin } = require("../../middleware/authMiddleware");
 
 // Import model schemas
-const Supplier = require('../model/supplierSchema');
-const Item = require('../model/itemSchema');
-const Menu = require('../model/menuSchema');
-const Batch = require('../model/batchSchema');
+const Supplier = require('../../model/supplierSchema');
+const Item = require('../../model/itemSchema');
+const Menu = require('../../model/menuSchema');
+const Batch = require('../../model/batchSchema');
 
 // ------------------- Private routes ------------------------------------------ //
 router.get('/', verifyToken, requireAdmin, async(req, res) => {
@@ -52,6 +52,30 @@ router.get('/', verifyToken, requireAdmin, async(req, res) => {
     }  catch(error){
         console.log('Error:', error);
     }
+});
+
+router.post('/', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const {
+            name,
+            phoneNumber,
+            email
+        } = req.body;
+
+        const savedSupplier = await Supplier.create({
+            name,
+            phoneNumber,
+            email,
+            isDeleted: false
+        });
+
+        return res.status(201).json({
+            message: 'Supplier created successfully',
+            supplier: savedSupplier
+        });
+    } catch (error){
+        console.log('Error:', error);
+    };
 });
 
 router.get('/:id', verifyToken, requireAdmin, async (req, res) => {

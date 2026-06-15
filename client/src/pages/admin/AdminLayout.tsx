@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../redux/auth/AuthSlice";
 
 let navigation = [
-    { name: 'ORDERS', href: '/admin/orders', current: false},
-    { name: 'INVENTORY', href: '/admin/inventory', current: false},
-    { name: 'ITEMS', href: '/admin/items', current: false},
-    { name: 'BATCHES', href: '/admin/batches', current: false},
-    { name: 'SUPPLIERS', href: '/admin/suppliers', current: false},
+    { name: '← Menu', href: '/', current: false},
+    { name: 'Orders', href: '/admin/orders', current: false},
+    { name: 'Inventory', href: '/admin/inventory', current: false},
+    { name: 'Items', href: '/admin/items', current: false},
+    { name: 'Batches', href: '/admin/batches', current: false},
+    { name: 'Suppliers', href: '/admin/suppliers', current: false},
 ];
 
 function AdminLayout({ children }: { children: ReactNode }){
