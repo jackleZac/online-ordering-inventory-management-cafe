@@ -148,7 +148,7 @@ function Menu() {
             <div className="max-md:fixed max-md:top-24">
               <div className="m-2 bg-white shadow-lg flex flex-col border-1 rounded-lg">
                 <h2 className="m-2 font-bold text-center text-xl">MENU</h2>
-                <div className="mx-2 my-4 border-2 rounded-lg flex flex-row max-md:flex-row">
+                <div className="m-4 border-2 rounded-lg flex flex-row max-md:flex-row">
                   <button
                     className="px-4 py-2 w-full hover:bg-slate-200 flex flex-row"
                     onClick={() => handleFilter(null)}

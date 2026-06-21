@@ -50,7 +50,7 @@ export const ProductCard = ({ _id, name, imageKey, rating, description, price, a
         {/* Details */}
         <div className="flex-1 ml-4">
           <h1 className="text-lg font-bold">{name}</h1>
-          <span className="text-sm text-gray-600">${accPrice ?? price}</span>
+          <span className="text-sm text-gray-600">RM{accPrice ?? price}</span>
         </div>
 
         {/* Quantity controls */}

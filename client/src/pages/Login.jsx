@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { FaLock } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
+import coffeeCup from "../assets/coffeeCup.png";
 import { LoginUser } from "../redux/auth/AuthSlice";
 
 function Login() {
@@ -49,26 +50,30 @@ function Login() {
 
   return (
     <div className='h-screen bg-[#f5f5ef] pt-36'>
-      <form className='px-6 py-8 h-fit w-96 mx-auto space-y-6 shadow-xl bg-white' onSubmit={handleSubmit}>
-          <h1 className='text-2xl font-bold text-center'>Welcome Back!</h1>
-          <div className='p-4 flex flex-row bg-[#eaeaea] rounded-3xl'>
-            <FaUser className='text-xl mx-2 text-gray-500'/>
-            <input type="text" className='bg-transparent w-full border-none outline-none' placeholder='Username'
-              value={username} onChange={(e) => setUsername(e.target.value)}/>
-          </div>
-          <div>
-            <div className='p-4 flex flex-row bg-[#eaeaea] rounded-3xl'>
-              <FaLock className='text-xl mx-2 text-gray-500'/>
-              <input type="password" className='bg-transparent w-full border-none outline-none' placeholder='Password'
-                value={password} onChange={(e) => setPassword(e.target.value)}/>
+      <div className='relative'>
+        <form className='px-6 py-8 h-fit w-96 mx-auto space-y-6' onSubmit={handleSubmit}>
+            <h1 className='text-2xl font-bold text-center'>Welcome Back!</h1>
+            <div className='p-4 flex flex-row bg-[#eaeaea] border border-gray-300 rounded-3xl'>
+              <FaUser className='text-xl mx-2 text-gray-500'/>
+              <input type="text" className='bg-transparent w-full border-none outline-none' placeholder='Username'
+                value={username} onChange={(e) => setUsername(e.target.value)}/>
             </div>
-            <button className='float-right'><p className='px-2 py-2 text-sm text-right hover:underline'>Forgot Password?</p></button>
-          </div>
-          <div className='clear-right'>
-            <button type="submit" className='px-12 py-2 mx-auto mt-12 bg-[#545454] text-white block rounded-3xl'>LOGIN</button>
-            <Link to='/register'><p className='my-4 text-center text-xs hover:underline'>Not a Member? Create Account</p></Link>
-          </div>
-        </form>
+            <div>
+              <div className='p-4 flex flex-row bg-[#eaeaea] border border-gray-300 rounded-3xl'>
+                <FaLock className='text-xl mx-2 text-gray-500'/>
+                <input type="password" className='bg-transparent w-full border-none outline-none' placeholder='Password'
+                  value={password} onChange={(e) => setPassword(e.target.value)}/>
+              </div>
+              <a href='/login'><p className='px-2 py-4 text-sm text-right hover:underline'>Forgot Password?</p></a>
+            </div>
+            <div className='clear-right'>
+              <button type="submit" className='px-12 py-2 mx-auto mt-12 bg-[#545454] text-white block rounded-3xl'>LOGIN</button>
+              <Link to='/register'><p className='my-4 text-center text-xs hover:underline'>Not a Member? Create Account</p></Link>
+            </div>
+          </form>
+          {/* Add the coffee cup image at the bottom right corner */}
+          <img src={coffeeCup} className='w-1/4 absolute -bottom-12 right-12'/>
+        </div>
     </div>
   )
 }
